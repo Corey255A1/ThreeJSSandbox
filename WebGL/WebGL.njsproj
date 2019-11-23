@@ -33,6 +33,9 @@
     <None Include="app.ts" />
     <None Include="routes\index.ts" />
     <None Include="routes\user.ts" />
+    <Content Include="public\javascripts\JavaScript.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\javascripts\Monkey.js">
       <SubType>Code</SubType>
     </Content>
@@ -52,7 +55,6 @@
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\models\" />
-    <Folder Include="public\Routes\" />
     <Folder Include="routes\public\" />
     <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
