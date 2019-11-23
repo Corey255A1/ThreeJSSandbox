@@ -1,0 +1,2 @@
+D:\Documents\CodeProjects\WebGL\WebGL\obj\Debug\WebGL.njsprojAssemblyReference.cache
+D:\Documents\CodeProjects\WebGL\WebGL\bin\Microsoft.NodejsTools.WebRole.dll

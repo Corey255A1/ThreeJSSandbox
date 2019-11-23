@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "WebGL", "WebGL\WebGL.njsproj", "{8BC7567E-0C9E-49F8-91A8-C5B9A8315D60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BC7567E-0C9E-49F8-91A8-C5B9A8315D60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC7567E-0C9E-49F8-91A8-C5B9A8315D60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC7567E-0C9E-49F8-91A8-C5B9A8315D60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC7567E-0C9E-49F8-91A8-C5B9A8315D60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A14D2840-9C5E-4B23-87F0-EAF7B06F6791}
+	EndGlobalSection
+EndGlobal
