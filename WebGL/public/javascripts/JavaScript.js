@@ -11,7 +11,15 @@ document.body.appendChild(renderer.domElement);
 
 var geometry = new THREE.BoxGeometry(2, 1, 1);
 var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-var cube = new THREE.Mesh(geometry, material);
+
+const video = document.getElementById('video');
+video.play();
+const videoTexture = new THREE.VideoTexture(video);
+var parameters = { color: 0xffffff, map: videoTexture };
+const videoMaterial = new THREE.MeshBasicMaterial(parameters);
+var cube = new THREE.Mesh(geometry, videoMaterial);
+//var cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 scene.add(cube);
 
 camera.position.z = 5;
@@ -39,7 +47,10 @@ gloader.load('/models/boxmove.gltf',
 
     function (box) {
         buttonCube = box;
-        scene.add(buttonCube.scene);
+        //var butt = new THREE.Mesh(buttonCube.geometry, videoMaterial);
+        //scene.add(buttonCube.scene);
+        //scene.add(butt);
+        buttonCube.scene.rotation.x = Math.PI;
         console.log(buttonCube.animations);
         animixer = new THREE.AnimationMixer(buttonCube.scene);
         var action = animixer.clipAction(buttonCube.animations[0]);
@@ -61,9 +72,12 @@ var light = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(light);
 
 
-var light2 = new THREE.PointLight(0xff0000, 1, 100);
-light2.position.set(0, 0, 0);
+var light2 = new THREE.PointLight(0x808080, 1, 100);
+light2.position.set(0, 0, 5);
 scene.add(light2);
+
+
+
 
 
 function animate() {
@@ -71,8 +85,8 @@ function animate() {
     renderer.render(scene, camera);
     //cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
-    light2.position.x -= 0.05;
-    light2.position.y -= 0.1;
+    //light2.position.x -= 0.05;
+    //light2.position.y -= 0.1;
     if (monkeyHead) monkeyHead.rotation.x += 0.02;
     if (animixer) animixer.update(0.01);
     //cube.rotation.z += 0.01;
