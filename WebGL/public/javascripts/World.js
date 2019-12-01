@@ -7,9 +7,10 @@ const Pages = {
     background: { color: 0x0D0D0D },
     pages: [
         {
-        location: {x:-10, y:0, z:0},
-        size: { w: 64, h: 48, d: 1 },
-        background: {color: 0xFF0000 }
+            rotation: { x: 1, y: -1, z: 0.3 },
+            location: {x:-1, y:100, z:3},
+            size: { w: 64, h: 48, d: 1 },
+            background: {color: 0xFF0000 }
         }
     ]
 };
@@ -19,6 +20,7 @@ const Models = ["/models/wundervision.glb", "/models/ArrowButton.glb"];
 class Page {
     constructor(page, pagebox) {
         this.Location = page.location;
+        this.Rotation = page.rotation;
         this.Size = page.size;
         this.Background = page.background;
         this.Scene = new THREE.Scene();
@@ -26,6 +28,8 @@ class Page {
         this.Scene.position.y = page.location.y;
         this.Scene.position.z = page.location.z;
         this.Scene.add(pagebox);
+        this.Scene.rotation.set(this.Rotation.x, this.Rotation.y, this.Rotation.z);
+        this.Scene.updateMatrixWorld(true);
     }
 
     add(obj) {
@@ -33,6 +37,18 @@ class Page {
         obj.position.z -= this.Size.h / 2;
         obj.position.y += this.Size.d;
         this.Scene.add(obj);
+    }
+
+    setViewFocus(camera) {
+        var d = (this.Size.h / 2) / Math.atan(37.5 * Math.PI / 180);
+        var vec = new THREE.Vector3(0,d,0);                
+        var vec2 = this.Scene.localToWorld(vec);                
+        camera.position.copy(vec2);
+        var vec3 = new THREE.Vector3();
+        this.Scene.getWorldDirection(vec3);
+        vec3.multiplyScalar(-1);
+        camera.up = vec3;
+        camera.lookAt(this.Scene.position);
     }
 
 }
@@ -43,7 +59,6 @@ class PageCreator {
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.y = 8;
         this.renderer = new THREE.WebGLRenderer();
  
         this.raycaster = new THREE.Raycaster();
@@ -58,21 +73,23 @@ class PageCreator {
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.BasicShadowMap;
 
+        document.getElementById("scrollUp").addEventListener("click", () => {
+            this.camera.translateY(10);
+        });
+        document.getElementById("scrollDown").addEventListener("click", () => {
+            this.camera.translateY(-10);
+        });
 
-        this.cameraControls = new MapControls(this.camera, this.renderer.domElement);   
-        this.cameraControls.zoomSpeed = 0.2;
-        this.cameraControls.screenSpacePanning = false;
-        this.cameraControls.minDistance = 10;
-        this.cameraControls.maxDistance = 500;
-        this.cameraControls.maxPolarAngle = Math.PI / 2;
-        this.cameraControls.update();
-        this.camera.lookAt(0, 0, 0);
-        //this.cameraControls.update();
-        this.camera.updateMatrix();
+
+        //this.cameraControls = new MapControls(this.camera, this.renderer.domElement);   
+        //this.cameraControls.zoomSpeed = 0.2;
+        //this.cameraControls.screenSpacePanning = false;
+        //this.cameraControls.minDistance = 10;
+        //this.cameraControls.maxDistance = 500;
 
 
         this.createLights();
-        //this.createGround(pages.background);
+        this.createGround(pages.background);
 
 
         this.loadingManager = new THREE.LoadingManager();
@@ -95,8 +112,23 @@ class PageCreator {
                 let page = this.createPage(p);
                 page.add(this.createObject("/models/wundervision.glb", { w: 1, h: 1, d: 1 }, { x: 0, y: 0, z: 0 }));
                 page.add(this.createObject("/models/ArrowButton.glb", { w: 1, h: 1, d: 1 }, { x: 24, y: 24, z: 0 }));
+
+                //var vec = new THREE.Vector3(0,125,0);                
+                //var vec2 = page.Scene.localToWorld(vec);                
+                //this.camera.position.copy(vec2);
+                //var vec3 = new THREE.Vector3();
+                //page.Scene.getWorldDirection(vec3);
+                //vec3.multiplyScalar(-1);
+                //this.camera.up = vec3;
+                //this.camera.lookAt(page.Scene.position);
+                page.setViewFocus(this.camera);
+                //this.cameraControls.target.copy(page.Scene.position);
+                //this.cameraControls.update();
+                
+
             });
 
+            
             //this.createObject("/models/wundervision.glb", { w: 1, h: 1, d: 1 }, { x: 0, y: 0, z: 0 });
 
         };
